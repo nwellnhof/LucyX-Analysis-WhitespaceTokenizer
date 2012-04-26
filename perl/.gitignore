@@ -1,0 +1,12 @@
+*.pod
+/Build
+/MYMETA.json
+/MYMETA.yml
+/_build/
+/autogen/
+/blib/
+/lib/LucyX/Analysis/WhitespaceTokenizer.c
+/lib/LucyX/Analysis/WhitespaceTokenizer.xs
+/ppport.h
+/typemap
+

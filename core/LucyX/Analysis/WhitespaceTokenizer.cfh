@@ -1,0 +1,37 @@
+parcel WhitespaceTokenizer;
+
+__C__
+#include "Lucy/Analysis/Inversion.h"
+__END_C__
+
+/** Split a string at whitespace.
+ */
+class LucyX::Analysis::WhitespaceTokenizer
+    inherits Lucy::Analysis::Analyzer {
+
+    inert incremented WhitespaceTokenizer*
+    new();
+
+    /** Constructor.  Takes no arguments.
+     */
+    public inert WhitespaceTokenizer*
+    init(WhitespaceTokenizer *self);
+
+    public incremented lucy_Inversion*
+    Transform(WhitespaceTokenizer *self, lucy_Inversion *inversion);
+
+    public incremented lucy_Inversion*
+    Transform_Text(WhitespaceTokenizer *self, lucy_CharBuf *text);
+
+    /** Tokenize the supplied string and add any Tokens generated to the
+     * supplied Inversion.
+     */
+    void
+    Tokenize_Str(WhitespaceTokenizer *self, const char *text, size_t len,
+                 lucy_Inversion *inversion);
+
+    public bool_t
+    Equals(WhitespaceTokenizer *self, lucy_Obj *other);
+}
+
+

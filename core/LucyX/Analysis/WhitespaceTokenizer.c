@@ -1,7 +1,7 @@
-#define WHITESPACETOKENIZER_USE_SHORT_NAMES
+#define WSTOKER_USE_SHORT_NAMES
 #define LUCY_USE_SHORT_NAMES
 
-#define C_WHITESPACETOKENIZER_WHITESPACETOKENIZER
+#define C_WSTOKER_WHITESPACETOKENIZER
 #define C_LUCY_TOKEN
 #include "Lucy/Util/ToolSet.h"
 
@@ -13,7 +13,7 @@
 #include <ctype.h>
 
 void
-whitespacetokenizer_init_parcel() {
+wstoker_init_parcel() {
 }
 
 WhitespaceTokenizer*

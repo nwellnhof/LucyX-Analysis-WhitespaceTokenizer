@@ -1,4 +1,4 @@
-parcel WhitespaceTokenizer;
+parcel WhitespaceTokenizer cnick WSToker;
 
 __C__
 #include "Lucy/Analysis/Inversion.h"

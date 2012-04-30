@@ -2,7 +2,6 @@
 #define LUCY_USE_SHORT_NAMES
 
 #define C_WSTOKER_WHITESPACETOKENIZER
-#define C_LUCY_TOKEN
 #include "Lucy/Util/ToolSet.h"
 
 #include "LucyX/Analysis/WhitespaceTokenizer.h"
@@ -35,8 +34,8 @@ WhitespaceTokenizer_transform(WhitespaceTokenizer *self, Inversion *inversion) {
     Token *token;
 
     while (NULL != (token = Inversion_Next(inversion))) {
-        WhitespaceTokenizer_Tokenize_Str(self, token->text, token->len,
-                                         new_inversion);
+        WhitespaceTokenizer_Tokenize_Str(self, Token_Get_Text(token),
+                                         Token_Get_Len(token), new_inversion);
     }
 
     return new_inversion;

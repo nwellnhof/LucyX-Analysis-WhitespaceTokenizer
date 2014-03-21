@@ -12,7 +12,7 @@ sub bind_all {
 MODULE = LucyX::Analysis::WhitespaceTokenizer    PACKAGE = LucyX::Analysis::WhitespaceTokenizer
 
 BOOT:
-    wstoker_LucyX__Analysis__WhitespaceTokenizer_bootstrap();
+    cfish_LucyX__Analysis__WhitespaceTokenizer_bootstrap();
 END_XS_CODE
 
     my $pod_spec = Clownfish::CFC::Binding::Perl::Pod->new;

@@ -1,4 +1,4 @@
-parcel WhitespaceTokenizer cnick WSToker;
+parcel WhitespaceTokenizer;
 
 __C__
 #include "Lucy/Analysis/Inversion.h"
@@ -17,21 +17,21 @@ class LucyX::Analysis::WhitespaceTokenizer
     public inert WhitespaceTokenizer*
     init(WhitespaceTokenizer *self);
 
-    public incremented lucy_Inversion*
-    Transform(WhitespaceTokenizer *self, lucy_Inversion *inversion);
+    public incremented Inversion*
+    Transform(WhitespaceTokenizer *self, Inversion *inversion);
 
-    public incremented lucy_Inversion*
-    Transform_Text(WhitespaceTokenizer *self, lucy_CharBuf *text);
+    public incremented Inversion*
+    Transform_Text(WhitespaceTokenizer *self, String *text);
 
     /** Tokenize the supplied string and add any Tokens generated to the
      * supplied Inversion.
      */
     void
     Tokenize_Str(WhitespaceTokenizer *self, const char *text, size_t len,
-                 lucy_Inversion *inversion);
+                 Inversion *inversion);
 
-    public bool_t
-    Equals(WhitespaceTokenizer *self, lucy_Obj *other);
+    public bool
+    Equals(WhitespaceTokenizer *self, Obj *other);
 }
 
 

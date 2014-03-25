@@ -5,10 +5,12 @@
 #define C_WSTOKER_WHITESPACETOKENIZER
 #include "LucyX/Analysis/WhitespaceTokenizer.h"
 
+#include "Clownfish/Obj.h"
+#include "Clownfish/String.h"
 #include "Clownfish/Util/StringHelper.h"
+#include "Clownfish/VTable.h"
 #include "Lucy/Analysis/Inversion.h"
 #include "Lucy/Analysis/Token.h"
-#include "Lucy/Util/ToolSet.h"
 
 #include <ctype.h>
 

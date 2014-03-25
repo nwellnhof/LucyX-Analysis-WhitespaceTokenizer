@@ -80,7 +80,7 @@ WhitespaceTokenizer_Tokenize_Str_IMP(WhitespaceTokenizer *self,
         }
 
         prev_ws = ws;
-        byte_pos += StrHelp_UTF8_COUNT[text[byte_pos]];
+        byte_pos += StrHelp_UTF8_COUNT[(uint8_t)text[byte_pos]];
         char_pos += 1;
     }
 

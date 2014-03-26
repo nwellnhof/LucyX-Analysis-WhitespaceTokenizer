@@ -126,7 +126,8 @@ am__uninstall_files_from_dir = { \
 am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libwstoker_la_LIBADD =
-am_libwstoker_la_OBJECTS = libwstoker_la-WhitespaceTokenizer.lo
+am_libwstoker_la_OBJECTS = libwstoker_la-WhitespaceTokenizer.lo \
+	libwstoker_la-wstoker_parcel.lo
 libwstoker_la_OBJECTS = $(am_libwstoker_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -336,13 +337,15 @@ AUTOMAKE_OPTIONS = foreign
 ACLOCAL_AMFLAGS = -I m4
 lib_LTLIBRARIES = libwstoker.la
 libwstoker_la_CFLAGS = \
-    -g -Wall -O2 -fvisibility=hidden \
+    -std=c99 -g -Wall -O2 -fvisibility=hidden \
+    -DCFP_WSTOKER \
     -Iautogen/include \
     @CFC_C_INCLUDE@
 
 libwstoker_la_LDFLAGS = -version-number 0:1:0
 libwstoker_la_SOURCES = \
-    ../core/LucyX/Analysis/WhitespaceTokenizer.c
+    ../core/LucyX/Analysis/WhitespaceTokenizer.c \
+    autogen/source/wstoker_parcel.c
 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -444,6 +447,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwstoker_la-WhitespaceTokenizer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwstoker_la-wstoker_parcel.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -472,6 +476,13 @@ libwstoker_la-WhitespaceTokenizer.lo: ../core/LucyX/Analysis/WhitespaceTokenizer
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='../core/LucyX/Analysis/WhitespaceTokenizer.c' object='libwstoker_la-WhitespaceTokenizer.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libwstoker_la_CFLAGS) $(CFLAGS) -c -o libwstoker_la-WhitespaceTokenizer.lo `test -f '../core/LucyX/Analysis/WhitespaceTokenizer.c' || echo '$(srcdir)/'`../core/LucyX/Analysis/WhitespaceTokenizer.c
+
+libwstoker_la-wstoker_parcel.lo: autogen/source/wstoker_parcel.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libwstoker_la_CFLAGS) $(CFLAGS) -MT libwstoker_la-wstoker_parcel.lo -MD -MP -MF $(DEPDIR)/libwstoker_la-wstoker_parcel.Tpo -c -o libwstoker_la-wstoker_parcel.lo `test -f 'autogen/source/wstoker_parcel.c' || echo '$(srcdir)/'`autogen/source/wstoker_parcel.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwstoker_la-wstoker_parcel.Tpo $(DEPDIR)/libwstoker_la-wstoker_parcel.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='autogen/source/wstoker_parcel.c' object='libwstoker_la-wstoker_parcel.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libwstoker_la_CFLAGS) $(CFLAGS) -c -o libwstoker_la-wstoker_parcel.lo `test -f 'autogen/source/wstoker_parcel.c' || echo '$(srcdir)/'`autogen/source/wstoker_parcel.c
 
 mostlyclean-libtool:
 	-rm -f *.lo

@@ -9,4 +9,7 @@
 /config.status
 /libtool
 /Makefile
+/tests/.dirstamp
+/tests/.libs/
+/tests/test_wstoker
 /stamp-h1

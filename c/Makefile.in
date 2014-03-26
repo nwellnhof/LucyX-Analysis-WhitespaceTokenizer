@@ -78,6 +78,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+check_PROGRAMS = tests/test_wstoker$(EXEEXT)
 subdir = .
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
@@ -136,6 +137,17 @@ am__v_lt_1 =
 libwstoker_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(libwstoker_la_CFLAGS) \
 	$(CFLAGS) $(libwstoker_la_LDFLAGS) $(LDFLAGS) -o $@
+am_tests_test_wstoker_OBJECTS =  \
+	tests_test_wstoker-TestWhitespaceTokenizer.$(OBJEXT) \
+	tests_test_wstoker-testwstoker_parcel.$(OBJEXT) \
+	tests_test_wstoker-test_wstoker.$(OBJEXT)
+tests_test_wstoker_OBJECTS = $(am_tests_test_wstoker_OBJECTS)
+tests_test_wstoker_DEPENDENCIES = libwstoker.la
+tests_test_wstoker_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(tests_test_wstoker_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am__dirstamp = $(am__leading_dot)dirstamp
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -170,8 +182,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libwstoker_la_SOURCES)
-DIST_SOURCES = $(libwstoker_la_SOURCES)
+SOURCES = $(libwstoker_la_SOURCES) $(tests_test_wstoker_SOURCES)
+DIST_SOURCES = $(libwstoker_la_SOURCES) $(tests_test_wstoker_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -347,6 +359,17 @@ libwstoker_la_SOURCES = \
     ../core/LucyX/Analysis/WhitespaceTokenizer.c \
     autogen/source/wstoker_parcel.c
 
+tests_test_wstoker_SOURCES = \
+    ../core/LucyX/Test/Analysis/TestWhitespaceTokenizer.c \
+    autogen/source/testwstoker_parcel.c \
+    tests/test_wstoker.c
+
+tests_test_wstoker_CFLAGS = \
+    -std=c99 -g -Wall -O2 \
+    -Iautogen/include \
+    @CFC_C_INCLUDE@
+
+tests_test_wstoker_LDADD = libwstoker.la
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -440,6 +463,22 @@ clean-libLTLIBRARIES:
 libwstoker.la: $(libwstoker_la_OBJECTS) $(libwstoker_la_DEPENDENCIES) $(EXTRA_libwstoker_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(libwstoker_la_LINK) -rpath $(libdir) $(libwstoker_la_OBJECTS) $(libwstoker_la_LIBADD) $(LIBS)
 
+clean-checkPROGRAMS:
+	@list='$(check_PROGRAMS)'; test -n "$$list" || exit 0; \
+	echo " rm -f" $$list; \
+	rm -f $$list || exit $$?; \
+	test -n "$(EXEEXT)" || exit 0; \
+	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
+	echo " rm -f" $$list; \
+	rm -f $$list
+tests/$(am__dirstamp):
+	@$(MKDIR_P) tests
+	@: > tests/$(am__dirstamp)
+
+tests/test_wstoker$(EXEEXT): $(tests_test_wstoker_OBJECTS) $(tests_test_wstoker_DEPENDENCIES) $(EXTRA_tests_test_wstoker_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/test_wstoker$(EXEEXT)
+	$(AM_V_CCLD)$(tests_test_wstoker_LINK) $(tests_test_wstoker_OBJECTS) $(tests_test_wstoker_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -448,6 +487,9 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwstoker_la-WhitespaceTokenizer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwstoker_la-wstoker_parcel.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tests_test_wstoker-TestWhitespaceTokenizer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tests_test_wstoker-test_wstoker.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tests_test_wstoker-testwstoker_parcel.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -484,11 +526,54 @@ libwstoker_la-wstoker_parcel.lo: autogen/source/wstoker_parcel.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libwstoker_la_CFLAGS) $(CFLAGS) -c -o libwstoker_la-wstoker_parcel.lo `test -f 'autogen/source/wstoker_parcel.c' || echo '$(srcdir)/'`autogen/source/wstoker_parcel.c
 
+tests_test_wstoker-TestWhitespaceTokenizer.o: ../core/LucyX/Test/Analysis/TestWhitespaceTokenizer.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_wstoker_CFLAGS) $(CFLAGS) -MT tests_test_wstoker-TestWhitespaceTokenizer.o -MD -MP -MF $(DEPDIR)/tests_test_wstoker-TestWhitespaceTokenizer.Tpo -c -o tests_test_wstoker-TestWhitespaceTokenizer.o `test -f '../core/LucyX/Test/Analysis/TestWhitespaceTokenizer.c' || echo '$(srcdir)/'`../core/LucyX/Test/Analysis/TestWhitespaceTokenizer.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tests_test_wstoker-TestWhitespaceTokenizer.Tpo $(DEPDIR)/tests_test_wstoker-TestWhitespaceTokenizer.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='../core/LucyX/Test/Analysis/TestWhitespaceTokenizer.c' object='tests_test_wstoker-TestWhitespaceTokenizer.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_wstoker_CFLAGS) $(CFLAGS) -c -o tests_test_wstoker-TestWhitespaceTokenizer.o `test -f '../core/LucyX/Test/Analysis/TestWhitespaceTokenizer.c' || echo '$(srcdir)/'`../core/LucyX/Test/Analysis/TestWhitespaceTokenizer.c
+
+tests_test_wstoker-TestWhitespaceTokenizer.obj: ../core/LucyX/Test/Analysis/TestWhitespaceTokenizer.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_wstoker_CFLAGS) $(CFLAGS) -MT tests_test_wstoker-TestWhitespaceTokenizer.obj -MD -MP -MF $(DEPDIR)/tests_test_wstoker-TestWhitespaceTokenizer.Tpo -c -o tests_test_wstoker-TestWhitespaceTokenizer.obj `if test -f '../core/LucyX/Test/Analysis/TestWhitespaceTokenizer.c'; then $(CYGPATH_W) '../core/LucyX/Test/Analysis/TestWhitespaceTokenizer.c'; else $(CYGPATH_W) '$(srcdir)/../core/LucyX/Test/Analysis/TestWhitespaceTokenizer.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tests_test_wstoker-TestWhitespaceTokenizer.Tpo $(DEPDIR)/tests_test_wstoker-TestWhitespaceTokenizer.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='../core/LucyX/Test/Analysis/TestWhitespaceTokenizer.c' object='tests_test_wstoker-TestWhitespaceTokenizer.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_wstoker_CFLAGS) $(CFLAGS) -c -o tests_test_wstoker-TestWhitespaceTokenizer.obj `if test -f '../core/LucyX/Test/Analysis/TestWhitespaceTokenizer.c'; then $(CYGPATH_W) '../core/LucyX/Test/Analysis/TestWhitespaceTokenizer.c'; else $(CYGPATH_W) '$(srcdir)/../core/LucyX/Test/Analysis/TestWhitespaceTokenizer.c'; fi`
+
+tests_test_wstoker-testwstoker_parcel.o: autogen/source/testwstoker_parcel.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_wstoker_CFLAGS) $(CFLAGS) -MT tests_test_wstoker-testwstoker_parcel.o -MD -MP -MF $(DEPDIR)/tests_test_wstoker-testwstoker_parcel.Tpo -c -o tests_test_wstoker-testwstoker_parcel.o `test -f 'autogen/source/testwstoker_parcel.c' || echo '$(srcdir)/'`autogen/source/testwstoker_parcel.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tests_test_wstoker-testwstoker_parcel.Tpo $(DEPDIR)/tests_test_wstoker-testwstoker_parcel.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='autogen/source/testwstoker_parcel.c' object='tests_test_wstoker-testwstoker_parcel.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_wstoker_CFLAGS) $(CFLAGS) -c -o tests_test_wstoker-testwstoker_parcel.o `test -f 'autogen/source/testwstoker_parcel.c' || echo '$(srcdir)/'`autogen/source/testwstoker_parcel.c
+
+tests_test_wstoker-testwstoker_parcel.obj: autogen/source/testwstoker_parcel.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_wstoker_CFLAGS) $(CFLAGS) -MT tests_test_wstoker-testwstoker_parcel.obj -MD -MP -MF $(DEPDIR)/tests_test_wstoker-testwstoker_parcel.Tpo -c -o tests_test_wstoker-testwstoker_parcel.obj `if test -f 'autogen/source/testwstoker_parcel.c'; then $(CYGPATH_W) 'autogen/source/testwstoker_parcel.c'; else $(CYGPATH_W) '$(srcdir)/autogen/source/testwstoker_parcel.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tests_test_wstoker-testwstoker_parcel.Tpo $(DEPDIR)/tests_test_wstoker-testwstoker_parcel.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='autogen/source/testwstoker_parcel.c' object='tests_test_wstoker-testwstoker_parcel.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_wstoker_CFLAGS) $(CFLAGS) -c -o tests_test_wstoker-testwstoker_parcel.obj `if test -f 'autogen/source/testwstoker_parcel.c'; then $(CYGPATH_W) 'autogen/source/testwstoker_parcel.c'; else $(CYGPATH_W) '$(srcdir)/autogen/source/testwstoker_parcel.c'; fi`
+
+tests_test_wstoker-test_wstoker.o: tests/test_wstoker.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_wstoker_CFLAGS) $(CFLAGS) -MT tests_test_wstoker-test_wstoker.o -MD -MP -MF $(DEPDIR)/tests_test_wstoker-test_wstoker.Tpo -c -o tests_test_wstoker-test_wstoker.o `test -f 'tests/test_wstoker.c' || echo '$(srcdir)/'`tests/test_wstoker.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tests_test_wstoker-test_wstoker.Tpo $(DEPDIR)/tests_test_wstoker-test_wstoker.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='tests/test_wstoker.c' object='tests_test_wstoker-test_wstoker.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_wstoker_CFLAGS) $(CFLAGS) -c -o tests_test_wstoker-test_wstoker.o `test -f 'tests/test_wstoker.c' || echo '$(srcdir)/'`tests/test_wstoker.c
+
+tests_test_wstoker-test_wstoker.obj: tests/test_wstoker.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_wstoker_CFLAGS) $(CFLAGS) -MT tests_test_wstoker-test_wstoker.obj -MD -MP -MF $(DEPDIR)/tests_test_wstoker-test_wstoker.Tpo -c -o tests_test_wstoker-test_wstoker.obj `if test -f 'tests/test_wstoker.c'; then $(CYGPATH_W) 'tests/test_wstoker.c'; else $(CYGPATH_W) '$(srcdir)/tests/test_wstoker.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/tests_test_wstoker-test_wstoker.Tpo $(DEPDIR)/tests_test_wstoker-test_wstoker.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='tests/test_wstoker.c' object='tests_test_wstoker-test_wstoker.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(tests_test_wstoker_CFLAGS) $(CFLAGS) -c -o tests_test_wstoker-test_wstoker.obj `if test -f 'tests/test_wstoker.c'; then $(CYGPATH_W) 'tests/test_wstoker.c'; else $(CYGPATH_W) '$(srcdir)/tests/test_wstoker.c'; fi`
+
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
 	-rm -rf .libs _libs
+	-rm -rf tests/.libs tests/_libs
 
 distclean-libtool:
 	-rm -f libtool config.lt
@@ -709,6 +794,7 @@ distcleancheck: distclean
 	       $(distcleancheck_listfiles) ; \
 	       exit 1; } >&2
 check-am: all-am
+	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS)
 check: check-am
 all-am: Makefile $(LTLIBRARIES) config.h
 installdirs:
@@ -741,14 +827,15 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f tests/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libLTLIBRARIES clean-libtool clean-local \
-	mostlyclean-am
+clean-am: clean-checkPROGRAMS clean-generic clean-libLTLIBRARIES \
+	clean-libtool clean-local mostlyclean-am
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
@@ -819,25 +906,25 @@ ps-am:
 
 uninstall-am: uninstall-libLTLIBRARIES
 
-.MAKE: all install-am install-strip
+.MAKE: all check-am install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am am--refresh check check-am clean \
-	clean-cscope clean-generic clean-libLTLIBRARIES clean-libtool \
-	clean-local cscope cscopelist-am ctags ctags-am dist dist-all \
-	dist-bzip2 dist-gzip dist-lzip dist-shar dist-tarZ dist-xz \
-	dist-zip distcheck distclean distclean-compile \
-	distclean-generic distclean-hdr distclean-libtool \
-	distclean-tags distcleancheck distdir distuninstallcheck dvi \
-	dvi-am html html-am info info-am install install-am \
-	install-data install-data-am install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-libLTLIBRARIES \
-	install-man install-pdf install-pdf-am install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am uninstall-libLTLIBRARIES
+	clean-checkPROGRAMS clean-cscope clean-generic \
+	clean-libLTLIBRARIES clean-libtool clean-local cscope \
+	cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
+	dist-gzip dist-lzip dist-shar dist-tarZ dist-xz dist-zip \
+	distcheck distclean distclean-compile distclean-generic \
+	distclean-hdr distclean-libtool distclean-tags distcleancheck \
+	distdir distuninstallcheck dvi dvi-am html html-am info \
+	info-am install install-am install-data install-data-am \
+	install-dvi install-dvi-am install-exec install-exec-am \
+	install-html install-html-am install-info install-info-am \
+	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-libLTLIBRARIES
 
 
 autogen/hierarchy.json:

@@ -1,0 +1,10 @@
+{
+    "name": "TestWhitespaceTokenizer",
+    "nickname": "TestWSToker",
+    "version": "v0.1.0",
+    "prerequisites": {
+        "Clownfish": "v0.3.0",
+        "Lucy": "v0.3.0",
+        "WhitespaceTokenizer": "v0.1.0"
+    }
+}

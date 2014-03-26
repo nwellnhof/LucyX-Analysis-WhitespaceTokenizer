@@ -1,0 +1,13 @@
+parcel TestWhitespaceTokenizer;
+
+class LucyX::Test::Analysis::TestWhitespaceTokenizer
+    inherits Clownfish::TestHarness::TestBatch {
+
+    inert incremented TestWhitespaceTokenizer*
+    new();
+
+    void
+    Run(TestWhitespaceTokenizer *self, TestBatchRunner *runner);
+}
+
+

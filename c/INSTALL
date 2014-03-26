@@ -1,0 +1,17 @@
+Installation instructions
+=========================
+
+With Clownfish in default location:
+
+    $ ./configure
+    $ make
+    $ make check
+    $ tests/test_wstoker
+
+With Clownfish in custom location:
+
+    $ ./configure --with-clownfish=PREFIX
+    $ make
+    $ make check
+    $ LD_LIBRARY_PATH=PREFIX/lib tests/test_wstoker
+

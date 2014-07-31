@@ -5,7 +5,9 @@ use Clownfish::CFC::Perl::Build;
 use File::Spec::Functions qw( catdir );
 
 my @cf_base_path    = Clownfish::CFC::Perl::Build->cf_base_path;
-my @cf_linker_flags = Clownfish::CFC::Perl::Build->cf_linker_flags('Lucy');
+my @cf_linker_flags = Clownfish::CFC::Perl::Build->cf_linker_flags(
+    qw( Clownfish Lucy )
+);
 
 my $builder = Clownfish::CFC::Perl::Build->new(
     module_name        => 'LucyX::Analysis::WhitespaceTokenizer',

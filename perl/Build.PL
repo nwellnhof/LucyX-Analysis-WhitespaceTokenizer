@@ -15,12 +15,13 @@ my $builder = Clownfish::CFC::Perl::Build->new(
     dist_author        => 'Nick Wellnhofer <wellnhofer@aevum.de>',
     dist_version       => '0.1.0',
     extra_linker_flags => [ @cf_linker_flags ],
-    requires           => {
-        'perl' => '5.8.3',
-        'Lucy' => '0.3.0',
-    },
-    build_requires     => {
+    configure_requires => {
         'Clownfish::CFC::Perl::Build' => 0,
+    },
+    requires => {
+        'perl'      => '5.8.3',
+        'Clownfish' => '0.3.0',
+        'Lucy'      => '0.3.0',
     },
     clownfish_params => {
         source  => [ catdir( @cf_base_path, 'core' ) ],

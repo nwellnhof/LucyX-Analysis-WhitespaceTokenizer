@@ -5,7 +5,6 @@ use Clownfish::CFC::Perl::Build;
 use File::Spec::Functions qw( catdir );
 
 my @cf_base_path    = Clownfish::CFC::Perl::Build->cf_base_path;
-my @cf_sys_includes = Clownfish::CFC::Perl::Build->cf_system_include_dirs;
 my @cf_linker_flags = Clownfish::CFC::Perl::Build->cf_linker_flags('Lucy');
 
 my $builder = Clownfish::CFC::Perl::Build->new(
@@ -13,7 +12,6 @@ my $builder = Clownfish::CFC::Perl::Build->new(
     dist_abstract      => 'Split input at whitespace',
     dist_author        => 'Nick Wellnhofer <wellnhofer@aevum.de>',
     dist_version       => '0.1.0',
-    include_dirs       => [ @cf_sys_includes ],
     extra_linker_flags => [ @cf_linker_flags ],
     requires           => {
         'perl' => '5.8.3',
@@ -24,7 +22,6 @@ my $builder = Clownfish::CFC::Perl::Build->new(
     },
     clownfish_params => {
         source  => [ catdir( @cf_base_path, 'core' ) ],
-        include => [ @cf_sys_includes ],
     },
 );
 

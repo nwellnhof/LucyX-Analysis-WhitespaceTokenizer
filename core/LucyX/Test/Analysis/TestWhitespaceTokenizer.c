@@ -5,10 +5,10 @@
 #define C_TESTWSTOKER_TESTWHITESPACETOKENIZER
 #include "LucyX/Test/Analysis/TestWhitespaceTokenizer.h"
 
+#include "Clownfish/Class.h"
 #include "Clownfish/String.h"
 #include "Clownfish/TestHarness/TestBatchRunner.h"
 #include "Clownfish/VArray.h"
-#include "Clownfish/VTable.h"
 #include "LucyX/Analysis/WhitespaceTokenizer.h"
 
 void
@@ -17,7 +17,7 @@ testwstoker_init_parcel() {
 
 TestWhitespaceTokenizer*
 TestWhitespaceTokenizer_new() {
-    return (TestWhitespaceTokenizer*)VTable_Make_Obj(TESTWHITESPACETOKENIZER);
+    return (TestWhitespaceTokenizer*)Class_Make_Obj(TESTWHITESPACETOKENIZER);
 }
 
 static void

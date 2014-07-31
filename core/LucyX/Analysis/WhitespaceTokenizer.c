@@ -5,10 +5,10 @@
 #define C_WSTOKER_WHITESPACETOKENIZER
 #include "LucyX/Analysis/WhitespaceTokenizer.h"
 
+#include "Clownfish/Class.h"
 #include "Clownfish/Obj.h"
 #include "Clownfish/String.h"
 #include "Clownfish/Util/StringHelper.h"
-#include "Clownfish/VTable.h"
 #include "Lucy/Analysis/Inversion.h"
 #include "Lucy/Analysis/Token.h"
 
@@ -21,7 +21,7 @@ wstoker_init_parcel() {
 WhitespaceTokenizer*
 WhitespaceTokenizer_new() {
     WhitespaceTokenizer *self
-        = (WhitespaceTokenizer*)VTable_Make_Obj(WHITESPACETOKENIZER);
+        = (WhitespaceTokenizer*)Class_Make_Obj(WHITESPACETOKENIZER);
     return WhitespaceTokenizer_init(self);
 }
 

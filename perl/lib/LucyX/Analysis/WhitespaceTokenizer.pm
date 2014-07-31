@@ -17,8 +17,6 @@ BEGIN {
     require DynaLoader;
     our @ISA = qw(DynaLoader);
     bootstrap LucyX::Analysis::WhitespaceTokenizer;
-
-    _init_autobindings();
 }
 
 1;

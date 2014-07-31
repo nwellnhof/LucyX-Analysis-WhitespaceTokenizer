@@ -8,13 +8,6 @@ $VERSION = eval $VERSION;
 sub bind_all {
     my $class = shift;
 
-    my $xs_code = <<'END_XS_CODE';
-MODULE = LucyX::Analysis::WhitespaceTokenizer    PACKAGE = LucyX::Analysis::WhitespaceTokenizer
-
-BOOT:
-    cfish_LucyX__Analysis__WhitespaceTokenizer_bootstrap();
-END_XS_CODE
-
     my $pod_spec = Clownfish::CFC::Binding::Perl::Pod->new;
     my $synopsis = <<'END_SYNOPSIS';
     my $tokenizer = LucyX::Analysis::WhitespaceTokenizer->new;
@@ -33,7 +26,6 @@ END_CONSTRUCTOR
         parcel     => 'WhitespaceTokenizer',
         class_name => 'LucyX::Analysis::WhitespaceTokenizer',
     );
-    $binding->append_xs($xs_code);
     $binding->set_pod_spec($pod_spec);
 
     Clownfish::CFC::Binding::Perl::Class->register($binding);
